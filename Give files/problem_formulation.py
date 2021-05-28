@@ -263,7 +263,37 @@ def get_model_for_problem_formulation(problem_formulation_id):
             outcomes.append(ScalarOutcome('RfR Total Costs {}'.format(n), kind=direction))
             outcomes.append(ScalarOutcome('Expected Evacuation Costs {}'.format(n), kind=direction))
         dike_model.outcomes = outcomes
-        
+    
+    #-------------------------------------------------------------------------#
+    # Custom PF 6:
+    # Areas: Deventer, Gorsse
+    # Outcomes: expected nr. casualties, annual damage, dike costs, RfR costs, evacuation cost
+    # Time not included
+
+    elif problem_formulation_id == 6:
+        outcomes = []
+
+        for n in function.planning_steps:
+          for dike in function.dikelist:
+            if ((dike == "A.4") or (dike == "A.5")):
+              for entry in ['Expected Annual Damage', 'Dike Investment Costs',
+                            'Expected Number of Deaths']:
+                  
+                  o = ScalarOutcome('{}_{} {}'.format(dike, entry, n), kind=direction)
+                  outcomes.append(o)
+
+            else:
+              pass
+          
+          outcomes.append(ScalarOutcome('RfR Total Costs {}'.format(n), kind=direction))
+          outcomes.append(ScalarOutcome('Expected Evacuation Costs {}'.format(n), kind=direction))
+          
+            
+
+        dike_model.outcomes = outcomes
+
+      #-------------------------------------------------------------------------#
+
     else:
         raise TypeError('unknownx identifier')
         
